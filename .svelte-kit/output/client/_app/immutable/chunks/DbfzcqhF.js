@@ -1,1 +1,0 @@
-import"./BzSc3bOZ.js";import{s as t,r as i}from"./CYtSnLz2.js";import{I as n}from"./DfRphAw5.js";function a(r,e){let o=i(e,["$$slots","$$events","$$legacy"]);const s=[["line",{x1:"10",x2:"14",y1:"2",y2:"2"}],["line",{x1:"12",x2:"15",y1:"14",y2:"11"}],["circle",{cx:"12",cy:"14",r:"8"}]];n(r,t({name:"timer"},()=>o,{get iconNode(){return s}}))}export{a as T};
