@@ -17,9 +17,14 @@ function resolveTheme(pref: ThemePreference): 'light' | 'dark' {
 
 function applyTheme(t: 'light' | 'dark') {
   if (!browser) return;
+  // Suppress transitions during theme switch to prevent flicker
+  document.documentElement.classList.add('theme-transitioning');
   document.documentElement.classList.toggle('dark', t === 'dark');
   const meta = document.querySelector('meta[name="theme-color"]');
   if (meta) meta.setAttribute('content', t === 'dark' ? '#0f172a' : '#1d4ed8');
+  requestAnimationFrame(() => {
+    document.documentElement.classList.remove('theme-transitioning');
+  });
 }
 
 const initial = loadPreference();

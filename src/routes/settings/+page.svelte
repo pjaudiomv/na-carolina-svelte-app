@@ -14,7 +14,7 @@
 </svelte:head>
 
 <!-- Header -->
-<div class="from-brand-dark via-brand to-brand-light bg-gradient-to-br px-6 pt-8 pb-6 text-white">
+<div class="page-header from-brand-dark via-brand to-brand-light bg-gradient-to-br px-6 pb-6 text-white">
   <div class="flex items-center gap-3">
     <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-white/20">
       <Settings size={22} strokeWidth={2} />

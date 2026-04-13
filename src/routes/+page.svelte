@@ -52,7 +52,7 @@
 </svelte:head>
 
 <!-- Hero -->
-<div class="from-brand-dark via-brand to-brand-light bg-gradient-to-br px-6 pt-12 pb-10 text-white">
+<div class="page-header from-brand-dark via-brand to-brand-light bg-gradient-to-br px-6 pb-10 text-white">
   <div class="flex flex-col items-center text-center">
     <img src="/icon-512x512.png" alt="Carolina Region NA" class="mb-4 h-24 w-24 rounded-2xl" />
   </div>

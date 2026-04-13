@@ -41,9 +41,13 @@ main {
   scroll-behavior: smooth;
 }
 
-/* Standalone PWA: pad for iOS status bar */
-@supports (padding-top: env(safe-area-inset-top)) {
-  .pwa-safe-top {
-    padding-top: var(--safe-top);
-  }
+/* Standalone PWA: page header padding accounts for iOS status bar */
+.page-header {
+  padding-top: calc(var(--safe-top) + 2rem);
+}
+
+/* Prevent flash when toggling dark mode */
+html.theme-transitioning,
+html.theme-transitioning * {
+  transition: none !important;
 }
