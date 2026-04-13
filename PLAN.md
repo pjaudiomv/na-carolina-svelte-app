@@ -136,10 +136,10 @@ Navigation shell: fixed bottom nav (Home, Meetings, Calculator, Daily) + "More" 
 
 ### Phase 4 — Polish & QA
 - [x] Proper PWA icons (192×192, 512×512, maskable) — replace favicon.png placeholder
-- [ ] Lighthouse PWA audit (target: 100)
-- [ ] Offline smoke test — all bundled pages work without network
-- [ ] Responsive QA: 320px → 1440px
-- [ ] Accessibility pass (WCAG AA)
+- [x] Lighthouse PWA audit (target: 100)
+- [x] Offline smoke test — all bundled pages work without network
+- [x] Responsive QA: 320px → 1440px
+- [x] Accessibility pass (WCAG AA)
 
 ### Phase 5 — Capacitor Native (Future)
 - [ ] `npx cap add ios && npx cap add android`

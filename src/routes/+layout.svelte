@@ -63,25 +63,29 @@
 
 <!-- Offline banner -->
 {#if !online}
-  <div class="offline-banner" transition:fly={{ y: 20, duration: 200 }}>
+  <div class="offline-banner" role="status" aria-live="polite" transition:fly={{ y: 20, duration: 200 }}>
     <WifiOff size={14} strokeWidth={2.5} />
     You're offline — showing cached data
   </div>
 {/if}
 
 <!-- Bottom navigation bar -->
-<nav class="bottom-nav">
+<nav class="bottom-nav" aria-label="Main navigation">
   <div class="nav-row">
     {#each navItems as item (item.href)}
       {@const Icon = item.icon}
       {@const active = isActive(item)}
-      <a href={item.href} class={['nav-item', active ? 'text-brand dark:text-blue-400' : 'text-slate-400 dark:text-slate-500']}>
+      <a href={item.href} aria-current={active ? 'page' : undefined} class={['nav-item', active ? 'text-brand dark:text-blue-400' : 'text-slate-500 dark:text-slate-400']}>
         <Icon size={22} strokeWidth={active ? 2.5 : 1.8} />
         <span>{item.label}</span>
       </a>
     {/each}
 
-    <button onclick={() => (drawerOpen = true)} class={['nav-item', drawerItems.some((i) => isDrawerItemActive(i.href)) ? 'text-brand dark:text-blue-400' : 'text-slate-400 dark:text-slate-500']}>
+    <button
+      onclick={() => (drawerOpen = true)}
+      aria-label="More options"
+      class={['nav-item', drawerItems.some((i) => isDrawerItemActive(i.href)) ? 'text-brand dark:text-blue-400' : 'text-slate-500 dark:text-slate-400']}
+    >
       <Menu size={22} strokeWidth={1.8} />
       <span>More</span>
     </button>
