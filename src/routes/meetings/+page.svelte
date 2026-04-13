@@ -25,7 +25,7 @@
   <title>Find Meetings — CRNA</title>
 </svelte:head>
 
-<div id="crumb-widget" class="h-full" bind:this={container}></div>
+<div id="crumb-widget" class="h-full" bind:this={container} style="padding-top: env(safe-area-inset-top, 0px)"></div>
 
 <style>
   div {

@@ -19,6 +19,13 @@ body {
   height: 100%;
   overscroll-behavior: none;
   -webkit-overflow-scrolling: touch;
+  background-color: #f8fafc; /* slate-50 */
+}
+
+html.dark,
+html.dark body {
+  background-color: #0f172a; /* slate-900 */
+  color-scheme: dark;
 }
 
 /* Native-feel: disable text selection on UI chrome, keep it on content */
@@ -39,15 +46,4 @@ label {
 /* Native-feel: smooth momentum scrolling */
 main {
   scroll-behavior: smooth;
-}
-
-/* Standalone PWA: page header padding accounts for iOS status bar */
-.page-header {
-  padding-top: calc(var(--safe-top) + 2rem);
-}
-
-/* Prevent flash when toggling dark mode */
-html.theme-transitioning,
-html.theme-transitioning * {
-  transition: none !important;
 }
