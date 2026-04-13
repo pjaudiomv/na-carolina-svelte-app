@@ -133,7 +133,8 @@
   .app-shell {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    min-height: 100dvh;
+    min-height: -webkit-fill-available;
     background-color: #f8fafc;
   }
 
