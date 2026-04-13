@@ -55,7 +55,7 @@
     <button onclick={fetchReading} class="mt-3 rounded-lg bg-slate-100 px-4 py-2 text-sm font-medium text-slate-700 dark:bg-slate-700 dark:text-slate-200"> Retry </button>
   </div>
 {:else if reading}
-  <div class="px-5 pb-10" style="padding-top: calc(env(safe-area-inset-top, 0px) + 2rem)">
+  <div class="px-5 pb-10" style="padding-top: calc(var(--safe-top) + 2rem)">
     <!-- Header -->
     <div class="mb-6 text-center">
       <span class="{accentBg} {accentBgDark} {accentColor} mb-2 inline-block rounded-full px-3 py-1 text-xs font-semibold">{reading.date}</span>

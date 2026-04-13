@@ -3,12 +3,12 @@
   import { browser } from '$app/environment';
   import { theme } from '$lib/stores/theme.svelte';
 
-  let container: HTMLDivElement;
+  let widgetEl: HTMLDivElement;
 
   onMount(async () => {
     if (!browser) return;
     const { mountCrumbWidget } = await import('crumb-widget');
-    mountCrumbWidget(container, {
+    mountCrumbWidget(widgetEl, {
       serverUrl: 'https://aggregator.bmltenabled.org/main_server/',
       serviceBodyIds: [1215],
       view: 'both',
@@ -25,10 +25,14 @@
   <title>Find Meetings — CRNA</title>
 </svelte:head>
 
-<div id="crumb-widget" class="h-full" bind:this={container} style="padding-top: env(safe-area-inset-top, 0px)"></div>
+<!-- Outer wrapper keeps safe-area padding even though crumb-widget uses all:initial -->
+<div class="meetings-wrapper">
+  <div id="crumb-widget" bind:this={widgetEl}></div>
+</div>
 
 <style>
-  div {
-    min-height: calc(100dvh - var(--nav-height) - var(--safe-bottom));
+  .meetings-wrapper {
+    padding-top: env(safe-area-inset-top, 0px);
+    min-height: calc(100dvh - 4rem - env(safe-area-inset-bottom, 0px));
   }
 </style>
