@@ -7,6 +7,7 @@
   import { Home, MapPin, Timer, BookOpen, Menu, X, Calendar, Users, Settings, WifiOff } from '@lucide/svelte';
   import type { LucideIcon } from '@lucide/svelte';
   import { theme } from '$lib/stores/theme.svelte';
+  import InstallPrompt from '$lib/components/InstallPrompt.svelte';
 
   void theme.resolved;
 
@@ -68,6 +69,8 @@
     You're offline — showing cached data
   </div>
 {/if}
+
+<InstallPrompt />
 
 <!-- Bottom navigation bar -->
 <nav class="bottom-nav" aria-label="Main navigation">
