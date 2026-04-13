@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-	appId: 'com.sveltekit.capacitor', // TODO: add your app id
-	appName: 'SvelteKit Capacitor',
+	appId: 'org.na.crna',
+	appName: 'CRNA',
 	webDir: 'build',
 	plugins: {
 		"SplashScreen": {

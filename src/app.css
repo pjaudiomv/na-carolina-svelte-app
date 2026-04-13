@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+@theme {
+	--color-brand: #1d4ed8;
+	--color-brand-dark: #1e3a8a;
+	--color-brand-light: #3b82f6;
+}
+
+:root {
+	--nav-height: 4rem;
+	--safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+html,
+body {
+	height: 100%;
+	overscroll-behavior: none;
+}
