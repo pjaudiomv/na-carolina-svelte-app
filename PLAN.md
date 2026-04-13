@@ -120,19 +120,19 @@ Navigation shell: fixed bottom nav (Home, Meetings, Calculator, Daily) + "More" 
 - [x] `vite build` produces clean static output, 0 type errors
 
 ### Phase 2 — Core Features
-- [ ] Install `crumb-widget` + `leaflet`; embed and configure on `/meetings`
-- [ ] Implement `src/lib/cleantime.ts` — milestone logic in plain TypeScript
-- [ ] Build `/calculator` — date selectors, milestone grid, keytag SVGs
-- [ ] Source and format `jft.json` (366 entries, `MM-DD` keys)
-- [ ] Source and format `spad.json`
-- [ ] Build `/jft` — reading display + prev/next navigation
-- [ ] Build `/spad` — same as JFT
+- [x] Install `crumb-widget` + `leaflet`; embed and configure on `/meetings`
+- [x] Implement `src/lib/cleantime.ts` — milestone logic in plain TypeScript
+- [x] Build `/calculator` — date selectors, milestone grid, keytag SVGs
+- [x] Source and format `jft.json` (366 entries, `MM-DD` keys)
+- [x] Source and format `spad.json`
+- [x] Build `/jft` — reading display + prev/next navigation
+- [x] Build `/spad` — same as JFT
 
 ### Phase 3 — Secondary Features
-- [ ] Build `/events` — fetch WordPress API, error/offline handling
-- [ ] Build `/contact` — static service body data
-- [ ] Build `/settings` — theme toggle wired to `data-theme` on `<html>`, clean date management
-- [ ] Dark mode CSS variables in `app.css`
+- [x] Build `/events` — fetch WordPress API, error/offline handling
+- [x] Build `/contact` — static service body data
+- [x] Build `/settings` — theme toggle wired to `data-theme` on `<html>`, clean date management
+- [x] Dark mode CSS variables in `app.css`
 
 ### Phase 4 — Polish & QA
 - [ ] Proper PWA icons (192×192, 512×512, maskable) — replace favicon.png placeholder
