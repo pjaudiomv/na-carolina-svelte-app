@@ -1,0 +1,27 @@
+{
+	"/": [
+		"src/routes/+layout.js",
+		"src/routes/+layout.js"
+	],
+	"/calculator": [
+		"src/routes/+layout.js"
+	],
+	"/contact": [
+		"src/routes/+layout.js"
+	],
+	"/events": [
+		"src/routes/+layout.js"
+	],
+	"/jft": [
+		"src/routes/+layout.js"
+	],
+	"/meetings": [
+		"src/routes/+layout.js"
+	],
+	"/settings": [
+		"src/routes/+layout.js"
+	],
+	"/spad": [
+		"src/routes/+layout.js"
+	]
+}
