@@ -10,7 +10,7 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       manifestFilename: 'manifest.json',
-      includeAssets: ['favicon.png', 'apple-touch-icon.png'],
+      includeAssets: ['favicon.png', 'apple-touch-icon.png', 'icon-192x192.png', 'icon-512x512.png'],
       manifest: {
         name: 'CRNA — Carolina Region NA',
         short_name: 'CRNA',
@@ -21,6 +21,7 @@ export default defineConfig({
         orientation: 'portrait',
         scope: '/',
         start_url: '/',
+        categories: ['lifestyle', 'health'],
         icons: [
           {
             src: 'icon-192x192.png',
@@ -42,21 +43,61 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,json,woff2}'],
+        navigateFallback: '/index.html',
+        navigationPreload: true,
         runtimeCaching: [
+          // BMLT meeting data (aggregator — used by crumb-widget)
           {
-            urlPattern: /^https:\/\/bmlt\.sezf\.org\/.*/i,
+            urlPattern: /^https:\/\/aggregator\.bmltenabled\.org\/.*/i,
             handler: 'NetworkFirst',
             options: {
-              cacheName: 'bmlt-api',
-              expiration: { maxEntries: 50, maxAgeSeconds: 3600 }
+              cacheName: 'bmlt-meetings',
+              expiration: { maxEntries: 100, maxAgeSeconds: 86400 },
+              cacheableResponse: { statuses: [0, 200] },
+              networkTimeoutSeconds: 5
             }
           },
+          // JFT daily meditation
+          {
+            urlPattern: /^https:\/\/justforto\.day\/.*/i,
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'jft-meditation',
+              expiration: { maxEntries: 5, maxAgeSeconds: 86400 },
+              cacheableResponse: { statuses: [0, 200] },
+              networkTimeoutSeconds: 5
+            }
+          },
+          // SPAD daily reading
+          {
+            urlPattern: /^https:\/\/spiritualprinciplea\.day\/.*/i,
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'spad-reading',
+              expiration: { maxEntries: 5, maxAgeSeconds: 86400 },
+              cacheableResponse: { statuses: [0, 200] },
+              networkTimeoutSeconds: 5
+            }
+          },
+          // CRNA events
           {
             urlPattern: /^https:\/\/crna\.org\/.*/i,
             handler: 'NetworkFirst',
             options: {
               cacheName: 'crna-events',
-              expiration: { maxEntries: 20, maxAgeSeconds: 3600 }
+              expiration: { maxEntries: 20, maxAgeSeconds: 3600 },
+              cacheableResponse: { statuses: [0, 200] },
+              networkTimeoutSeconds: 5
+            }
+          },
+          // Leaflet map tiles (used by crumb-widget)
+          {
+            urlPattern: /^https:\/\/[abc]\.tile\.openstreetmap\.org\/.*/i,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'map-tiles',
+              expiration: { maxEntries: 500, maxAgeSeconds: 604800 },
+              cacheableResponse: { statuses: [0, 200] }
             }
           }
         ]

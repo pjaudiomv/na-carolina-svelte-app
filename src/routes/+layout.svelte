@@ -1,11 +1,23 @@
 <script lang="ts">
   import '../app.css';
   import { page } from '$app/state';
+  import { browser } from '$app/environment';
   import { fade, fly } from 'svelte/transition';
-  import { Home, MapPin, Timer, BookOpen, Menu, X, Calendar, Users, Settings } from '@lucide/svelte';
+  import { Home, MapPin, Timer, BookOpen, Menu, X, Calendar, Users, Settings, WifiOff } from '@lucide/svelte';
   import type { LucideIcon } from '@lucide/svelte';
+  import { theme } from '$lib/stores/theme.svelte';
+
+  // Touch theme to ensure it initializes
+  void theme.resolved;
 
   let { children } = $props();
+
+  let online = $state(browser ? navigator.onLine : true);
+
+  if (browser) {
+    window.addEventListener('online', () => (online = true));
+    window.addEventListener('offline', () => (online = false));
+  }
 
   interface NavItem {
     href: string;
@@ -47,21 +59,36 @@
   <title>CRNA — Carolina Region NA</title>
 </svelte:head>
 
-<div class="flex h-full flex-col bg-slate-50">
+<div class="flex h-full flex-col bg-slate-50 dark:bg-slate-900">
   <!-- Main content — padded above bottom nav -->
   <main class="min-h-0 flex-1 overflow-y-auto" style="padding-bottom: calc(var(--nav-height) + var(--safe-bottom))">
     {@render children()}
   </main>
 
+  <!-- Offline banner -->
+  {#if !online}
+    <div
+      class="fixed right-0 bottom-0 left-0 z-50 flex items-center justify-center gap-2 bg-amber-500 px-4 py-1.5 text-xs font-semibold text-white"
+      style="bottom: calc(var(--nav-height) + var(--safe-bottom))"
+      transition:fly={{ y: 20, duration: 200 }}
+    >
+      <WifiOff size={14} strokeWidth={2.5} />
+      You're offline — showing cached data
+    </div>
+  {/if}
+
   <!-- Bottom navigation bar -->
   <nav
-    class="fixed right-0 bottom-0 left-0 z-40 flex h-16 items-stretch border-t border-slate-200 bg-white"
+    class="fixed right-0 bottom-0 left-0 z-40 flex h-16 items-stretch border-t border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-800"
     style="padding-bottom: var(--safe-bottom); height: calc(var(--nav-height) + var(--safe-bottom))"
   >
     {#each navItems as item (item.href)}
       {@const Icon = item.icon}
       {@const active = isActive(item)}
-      <a href={item.href} class={['flex flex-1 flex-col items-center justify-center gap-0.5 pt-1 text-xs font-medium transition-colors', active ? 'text-brand' : 'text-slate-400']}>
+      <a
+        href={item.href}
+        class={['flex flex-1 flex-col items-center justify-center gap-0.5 pt-1 text-xs font-medium transition-colors', active ? 'text-brand dark:text-blue-400' : 'text-slate-400 dark:text-slate-500']}
+      >
         <Icon size={22} strokeWidth={active ? 2.5 : 1.8} />
         <span>{item.label}</span>
       </a>
@@ -72,7 +99,7 @@
       onclick={() => (drawerOpen = true)}
       class={[
         'flex flex-1 flex-col items-center justify-center gap-0.5 pt-1 text-xs font-medium transition-colors',
-        drawerItems.some((i) => isDrawerItemActive(i.href)) ? 'text-brand' : 'text-slate-400'
+        drawerItems.some((i) => isDrawerItemActive(i.href)) ? 'text-brand dark:text-blue-400' : 'text-slate-400 dark:text-slate-500'
       ]}
     >
       <Menu size={22} strokeWidth={1.8} />
@@ -87,16 +114,16 @@
   <div class="fixed inset-0 z-50 bg-black/40" transition:fade={{ duration: 200 }} onclick={closeDrawer} aria-hidden="true"></div>
 
   <!-- Sheet -->
-  <div class="fixed right-0 bottom-0 left-0 z-50 rounded-t-2xl bg-white shadow-xl" transition:fly={{ y: 300, duration: 280 }}>
+  <div class="fixed right-0 bottom-0 left-0 z-50 rounded-t-2xl bg-white shadow-xl dark:bg-slate-800" transition:fly={{ y: 300, duration: 280 }}>
     <!-- Handle -->
     <div class="flex justify-center pt-3 pb-1">
-      <div class="h-1 w-10 rounded-full bg-slate-300"></div>
+      <div class="h-1 w-10 rounded-full bg-slate-300 dark:bg-slate-600"></div>
     </div>
 
     <div class="px-4 pb-4" style="padding-bottom: calc(1rem + var(--safe-bottom))">
       <div class="mb-3 flex items-center justify-between">
-        <span class="text-sm font-semibold tracking-wide text-slate-500 uppercase">More</span>
-        <button onclick={closeDrawer} class="rounded-full p-1 text-slate-400 hover:bg-slate-100">
+        <span class="text-sm font-semibold tracking-wide text-slate-500 uppercase dark:text-slate-400">More</span>
+        <button onclick={closeDrawer} class="rounded-full p-1 text-slate-400 hover:bg-slate-100 dark:text-slate-500 dark:hover:bg-slate-700">
           <X size={20} />
         </button>
       </div>
@@ -107,7 +134,10 @@
         <a
           href={item.href}
           onclick={closeDrawer}
-          class={['flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-colors', active ? 'text-brand bg-blue-50' : 'text-slate-700 hover:bg-slate-50']}
+          class={[
+            'flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-colors',
+            active ? 'text-brand bg-blue-50 dark:bg-blue-950 dark:text-blue-400' : 'text-slate-700 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-700'
+          ]}
         >
           <Icon size={20} strokeWidth={active ? 2.5 : 1.8} />
           {item.label}

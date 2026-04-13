@@ -23,7 +23,7 @@
   <title>Find Meetings — CRNA</title>
 </svelte:head>
 
-<div class="h-full" bind:this={container}></div>
+<div id="crumb-widget" class="h-full" bind:this={container}></div>
 
 <style>
   div {

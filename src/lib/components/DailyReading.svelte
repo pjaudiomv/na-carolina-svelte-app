@@ -46,41 +46,41 @@
 {#if loading}
   <div class="flex flex-col items-center justify-center px-6 py-20">
     <LoaderCircle size={32} class="{accentColor} animate-spin" />
-    <p class="mt-3 text-sm text-slate-500">Loading...</p>
+    <p class="mt-3 text-sm text-slate-500 dark:text-slate-400">Loading...</p>
   </div>
 {:else if error}
   <div class="flex flex-col items-center justify-center px-6 py-20 text-center">
-    <p class="text-sm text-red-600">{error}</p>
-    <button onclick={fetchReading} class="mt-3 rounded-lg bg-slate-100 px-4 py-2 text-sm font-medium text-slate-700"> Retry </button>
+    <p class="text-sm text-red-600 dark:text-red-400">{error}</p>
+    <button onclick={fetchReading} class="mt-3 rounded-lg bg-slate-100 px-4 py-2 text-sm font-medium text-slate-700 dark:bg-slate-700 dark:text-slate-200"> Retry </button>
   </div>
 {:else if reading}
   <div class="px-5 pt-8 pb-10">
     <!-- Header -->
     <div class="mb-6 text-center">
       <span class="{accentBg} {accentColor} mb-2 inline-block rounded-full px-3 py-1 text-xs font-semibold">{reading.date}</span>
-      <h1 class="text-2xl font-bold text-slate-900">{reading.title}</h1>
-      <p class="mt-1 text-xs text-slate-500">{reading.page} &middot; {reading.source}</p>
+      <h1 class="text-2xl font-bold text-slate-900 dark:text-slate-100">{reading.title}</h1>
+      <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">{reading.page} &middot; {reading.source}</p>
     </div>
 
     <!-- Quote -->
-    <blockquote class="mb-6 border-l-4 border-current {accentColor} py-1 pl-4 text-sm text-slate-700 italic">
+    <blockquote class="mb-6 border-l-4 border-current {accentColor} py-1 pl-4 text-sm text-slate-700 italic dark:text-slate-300">
       {reading.quote}
     </blockquote>
 
     <!-- Content -->
     <div class="space-y-4">
       {#each reading.content as paragraph, i (i)}
-        <p class="text-sm leading-relaxed text-slate-700">{paragraph}</p>
+        <p class="text-sm leading-relaxed text-slate-700 dark:text-slate-300">{paragraph}</p>
       {/each}
     </div>
 
     <!-- Thought for the day -->
     <div class="{accentBg} mt-6 rounded-xl p-4">
       <p class="text-sm font-semibold {accentColor}">Just for today</p>
-      <p class="mt-1 text-sm leading-relaxed text-slate-700">{reading.thought}</p>
+      <p class="mt-1 text-sm leading-relaxed text-slate-700 dark:text-slate-300">{reading.thought}</p>
     </div>
 
     <!-- Copyright -->
-    <p class="mt-6 text-center text-[10px] text-slate-400">{reading.copyright}</p>
+    <p class="mt-6 text-center text-[10px] text-slate-400 dark:text-slate-500">{reading.copyright}</p>
   </div>
 {/if}
