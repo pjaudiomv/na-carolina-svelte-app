@@ -1,0 +1,1 @@
+import{f as e,a as o}from"../chunks/BR6aigjF.js";import"../chunks/CsGNchny.js";import{n as s}from"../chunks/BGUNU53b.js";var p=e('<h1 class="svelte-1uha8ag">Welcome!</h1> <img src="/svelte_cap.png" alt="SvelteKit Capacitor" style="object-fit: scale-down; max-width: 100%; padding: 8px;" class="svelte-1uha8ag"/>',1);function n(a){var t=p();s(2),o(a,t)}export{n as component};

@@ -1,0 +1,60 @@
+{
+  "version": 1,
+  "skills": {
+    "capacitor-accessibility": {
+      "source": "Cap-go/capgo-skills",
+      "sourceType": "github",
+      "computedHash": "57654b947c4e071fe32509282e315928a7b731e98ca8d71ab41948714d9c96a4"
+    },
+    "capacitor-best-practices": {
+      "source": "Cap-go/capgo-skills",
+      "sourceType": "github",
+      "computedHash": "9da56403dfd57025245e260d63d5ed3dcd74982ee8858f3b2186c396c25fac3d"
+    },
+    "capacitor-mcp": {
+      "source": "Cap-go/capgo-skills",
+      "sourceType": "github",
+      "computedHash": "b16bbccec75bb83f536e37ee7b9eb856e259b221a17dfc5fa9e6c0cb21a34e5e"
+    },
+    "capacitor-offline-first": {
+      "source": "Cap-go/capgo-skills",
+      "sourceType": "github",
+      "computedHash": "20121e487f74f4379827573674efc7f2ec19b42b97930f6b13145caa4d4c1b29"
+    },
+    "capacitor-performance": {
+      "source": "Cap-go/capgo-skills",
+      "sourceType": "github",
+      "computedHash": "e6815591d7ac5700e8a27f409a59459c9488ca02c9b3e777d2ec31eaac077dbe"
+    },
+    "capacitor-plugins": {
+      "source": "Cap-go/capgo-skills",
+      "sourceType": "github",
+      "computedHash": "2e2f4d88795630cdf2096f82ea50506d6db9958034d3827a7a4d0730ec922386"
+    },
+    "capacitor-splash-screen": {
+      "source": "Cap-go/capgo-skills",
+      "sourceType": "github",
+      "computedHash": "0e00503e10fc8478342b317099b0141c2c0d928fa52fac957a4d34c1e5453bb3"
+    },
+    "capgo-cli-usage": {
+      "source": "Cap-go/capgo-skills",
+      "sourceType": "github",
+      "computedHash": "48697bac572535a1973b0bd7734045b36fe8dfc1beef0f0e2e9203c1500609fd"
+    },
+    "framework-to-capacitor": {
+      "source": "Cap-go/capgo-skills",
+      "sourceType": "github",
+      "computedHash": "4683874d71954af17b3200a8a4737a093a0950c3081161cfbd0b675ce794021a"
+    },
+    "ionic-design": {
+      "source": "Cap-go/capgo-skills",
+      "sourceType": "github",
+      "computedHash": "069f85d262fcba95777119918e8269fa2786368ff333adcdcd017317dfc7315d"
+    },
+    "tailwind-capacitor": {
+      "source": "Cap-go/capgo-skills",
+      "sourceType": "github",
+      "computedHash": "de539cbaa1b2be1a391c06447f58be9114b97cd0241e8d181bfb11f5b2b2a7c1"
+    }
+  }
+}
