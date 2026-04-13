@@ -11,7 +11,7 @@
     mountCrumbWidget(widgetEl, {
       serverUrl: 'https://aggregator.bmltenabled.org/main_server/',
       serviceBodyIds: [1215],
-      view: 'both',
+      view: 'list',
       geolocation: true,
       geolocationRadius: 50,
       darkMode: theme.preference === 'auto' ? 'auto' : theme.resolved === 'dark',

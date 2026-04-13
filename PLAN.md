@@ -135,7 +135,7 @@ Navigation shell: fixed bottom nav (Home, Meetings, Calculator, Daily) + "More" 
 - [x] Dark mode CSS variables in `app.css`
 
 ### Phase 4 — Polish & QA
-- [ ] Proper PWA icons (192×192, 512×512, maskable) — replace favicon.png placeholder
+- [x] Proper PWA icons (192×192, 512×512, maskable) — replace favicon.png placeholder
 - [ ] Lighthouse PWA audit (target: 100)
 - [ ] Offline smoke test — all bundled pages work without network
 - [ ] Responsive QA: 320px → 1440px

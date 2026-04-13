@@ -50,7 +50,6 @@
     return page.url.pathname.startsWith(href);
   }
 
-  // Close drawer instantly before navigation starts — prevents flicker
   beforeNavigate(() => {
     drawerOpen = false;
   });
@@ -60,39 +59,35 @@
   <title>CRNA — Carolina Region NA</title>
 </svelte:head>
 
-<div class="app-shell">
-  <main>
-    {@render children()}
-  </main>
+{@render children()}
 
-  <!-- Offline banner -->
-  {#if !online}
-    <div class="offline-banner" transition:fly={{ y: 20, duration: 200 }}>
-      <WifiOff size={14} strokeWidth={2.5} />
-      You're offline — showing cached data
-    </div>
-  {/if}
+<!-- Offline banner -->
+{#if !online}
+  <div class="offline-banner" transition:fly={{ y: 20, duration: 200 }}>
+    <WifiOff size={14} strokeWidth={2.5} />
+    You're offline — showing cached data
+  </div>
+{/if}
 
-  <!-- Bottom navigation bar -->
-  <nav class="bottom-nav">
-    <div class="nav-row">
-      {#each navItems as item (item.href)}
-        {@const Icon = item.icon}
-        {@const active = isActive(item)}
-        <a href={item.href} class={['nav-item', active ? 'text-brand dark:text-blue-400' : 'text-slate-400 dark:text-slate-500']}>
-          <Icon size={22} strokeWidth={active ? 2.5 : 1.8} />
-          <span>{item.label}</span>
-        </a>
-      {/each}
+<!-- Bottom navigation bar -->
+<nav class="bottom-nav">
+  <div class="nav-row">
+    {#each navItems as item (item.href)}
+      {@const Icon = item.icon}
+      {@const active = isActive(item)}
+      <a href={item.href} class={['nav-item', active ? 'text-brand dark:text-blue-400' : 'text-slate-400 dark:text-slate-500']}>
+        <Icon size={22} strokeWidth={active ? 2.5 : 1.8} />
+        <span>{item.label}</span>
+      </a>
+    {/each}
 
-      <button onclick={() => (drawerOpen = true)} class={['nav-item', drawerItems.some((i) => isDrawerItemActive(i.href)) ? 'text-brand dark:text-blue-400' : 'text-slate-400 dark:text-slate-500']}>
-        <Menu size={22} strokeWidth={1.8} />
-        <span>More</span>
-      </button>
-    </div>
-    <div class="safe-bottom"></div>
-  </nav>
-</div>
+    <button onclick={() => (drawerOpen = true)} class={['nav-item', drawerItems.some((i) => isDrawerItemActive(i.href)) ? 'text-brand dark:text-blue-400' : 'text-slate-400 dark:text-slate-500']}>
+      <Menu size={22} strokeWidth={1.8} />
+      <span>More</span>
+    </button>
+  </div>
+  <div class="safe-bottom"></div>
+</nav>
 
 <!-- More drawer -->
 {#if drawerOpen}
@@ -103,7 +98,7 @@
       <div class="h-1 w-10 rounded-full bg-slate-300 dark:bg-slate-600"></div>
     </div>
 
-    <div class="px-4 pb-4" style="padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0px))">
+    <div class="drawer-content">
       <div class="mb-3 flex items-center justify-between">
         <span class="text-sm font-semibold tracking-wide text-slate-500 uppercase dark:text-slate-400">More</span>
         <button onclick={() => (drawerOpen = false)} class="rounded-full p-1 text-slate-400 hover:bg-slate-100 dark:text-slate-500 dark:hover:bg-slate-700">
@@ -130,24 +125,6 @@
 {/if}
 
 <style>
-  .app-shell {
-    display: flex;
-    flex-direction: column;
-    min-height: 100dvh;
-    min-height: -webkit-fill-available;
-    background-color: #f8fafc;
-  }
-
-  :global(html.dark) .app-shell {
-    background-color: #0f172a;
-  }
-
-  main {
-    flex: 1;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
   .bottom-nav {
     position: fixed;
     left: 0;
@@ -183,6 +160,11 @@
 
   .safe-bottom {
     height: env(safe-area-inset-bottom, 0px);
+  }
+
+  .drawer-content {
+    padding: 0 1rem 1rem;
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
   }
 
   .offline-banner {
