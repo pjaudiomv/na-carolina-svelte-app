@@ -11,6 +11,11 @@
 
   void theme.resolved;
 
+  // Register PWA service worker
+  if (browser) {
+    navigator.serviceWorker?.register('/sw.js', { scope: '/' });
+  }
+
   let { children } = $props();
 
   let online = $state(browser ? navigator.onLine : true);

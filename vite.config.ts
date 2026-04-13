@@ -9,6 +9,7 @@ export default defineConfig({
     sveltekit(),
     VitePWA({
       registerType: 'autoUpdate',
+      injectRegister: false,
       manifestFilename: 'manifest.json',
       includeAssets: ['favicon.png', 'apple-touch-icon.png', 'icon-192x192.png', 'icon-512x512.png'],
       manifest: {
@@ -44,7 +45,6 @@ export default defineConfig({
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,json,woff2}'],
         navigateFallback: '/index.html',
-        navigationPreload: true,
         runtimeCaching: [
           // BMLT meeting data (aggregator — used by crumb-widget)
           {
