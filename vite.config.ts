@@ -1,4 +1,8 @@
+/// <reference types="vitest/config" />
+
+
 import { sveltekit } from '@sveltejs/kit/vite';
+import { svelteTesting } from '@testing-library/svelte/vite';
 import { defineConfig } from 'vite';
 import tailwindcss from '@tailwindcss/vite';
 import { VitePWA } from 'vite-plugin-pwa';
@@ -7,6 +11,7 @@ export default defineConfig({
   plugins: [
     tailwindcss(),
     sveltekit(),
+    svelteTesting(),
     VitePWA({
       registerType: 'autoUpdate',
       injectRegister: false,
@@ -45,6 +50,8 @@ export default defineConfig({
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,json,woff2}'],
         navigateFallback: '/index.html',
+        skipWaiting: true,
+        clientsClaim: true,
         runtimeCaching: [
           // BMLT meeting data (aggregator — used by crumb-widget)
           {
@@ -103,5 +110,22 @@ export default defineConfig({
         ]
       }
     })
-  ]
+  ],
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: './src/tests/unit/setup.ts',
+    include: ['src/tests/unit/**/*.{test,spec}.{js,ts}'],
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'cobertura'],
+      include: ['src/**/*.{ts,svelte}'],
+      exclude: ['src/tests/**', 'src/main.ts'],
+      thresholds: {
+        lines: 80,
+        functions: 80,
+        statements: 80
+      }
+    }
+  }
 });

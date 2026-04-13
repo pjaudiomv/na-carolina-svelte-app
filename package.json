@@ -24,7 +24,12 @@
     "validate": "svelte-check",
     "lint": "prettier --check vite.config.ts tsconfig.json src && eslint vite.config.ts src && svelte-check --tsconfig ./tsconfig.json",
     "format": "prettier --write vite.config.ts tsconfig.json src",
-    "all": "npm run format && npm run lint && npm run build"
+    "all": "npm run format && npm run lint && npm run build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
+    "coverage": "vitest run --coverage",
+    "test:e2e": "playwright test"
   },
   "devDependencies": {
     "@capacitor/cli": "^8.0.0",
@@ -37,6 +42,7 @@
     "eslint": "^10.0.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-svelte": "^3.13.0",
+    "jsdom": "^29.0.2",
     "npm-run-all": "^4.1.5",
     "prettier": "^3.6.2",
     "prettier-plugin-svelte": "^3.4.0",
@@ -56,7 +62,13 @@
     "@capacitor/ios": "^8.0.0",
     "@eslint/js": "^10.0.1",
     "@lucide/svelte": "^1.8.0",
-    "crumb-widget": "^1.2.2"
+    "@playwright/test": "^1.59.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/svelte": "^5.3.1",
+    "@testing-library/user-event": "^14.6.1",
+    "@vitest/coverage-v8": "^4.1.4",
+    "crumb-widget": "^1.2.2",
+    "vitest": "^4.1.4"
   },
   "type": "module"
 }

@@ -7,3 +7,6 @@ ios/
 .DS_Store
 .svelte-kit
 !.svelte-kit/tsconfig.json
+
+playwright-report/
+test-results/
