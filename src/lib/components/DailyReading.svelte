@@ -16,9 +16,10 @@
     url: string;
     accentColor: string;
     accentBg: string;
+    accentBgDark: string;
   }
 
-  let { url, accentColor, accentBg }: Props = $props();
+  let { url, accentColor, accentBg, accentBgDark }: Props = $props();
 
   let reading = $state<Reading | null>(null);
   let error = $state<string | null>(null);
@@ -57,7 +58,7 @@
   <div class="px-5 pt-8 pb-10">
     <!-- Header -->
     <div class="mb-6 text-center">
-      <span class="{accentBg} {accentColor} mb-2 inline-block rounded-full px-3 py-1 text-xs font-semibold">{reading.date}</span>
+      <span class="{accentBg} {accentBgDark} {accentColor} mb-2 inline-block rounded-full px-3 py-1 text-xs font-semibold">{reading.date}</span>
       <h1 class="text-2xl font-bold text-slate-900 dark:text-slate-100">{reading.title}</h1>
       <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">{reading.page} &middot; {reading.source}</p>
     </div>
@@ -75,7 +76,7 @@
     </div>
 
     <!-- Thought for the day -->
-    <div class="{accentBg} mt-6 rounded-xl p-4">
+    <div class="{accentBg} {accentBgDark} mt-6 rounded-xl p-4">
       <p class="text-sm font-semibold {accentColor}">Just for today</p>
       <p class="mt-1 text-sm leading-relaxed text-slate-700 dark:text-slate-300">{reading.thought}</p>
     </div>

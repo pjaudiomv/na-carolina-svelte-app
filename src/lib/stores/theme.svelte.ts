@@ -4,9 +4,6 @@ export type ThemePreference = 'light' | 'dark' | 'auto';
 
 const STORAGE_KEY = 'crna_theme';
 
-let preference = $state<ThemePreference>(loadPreference());
-let resolved = $state<'light' | 'dark'>(resolveTheme(preference));
-
 function loadPreference(): ThemePreference {
   if (!browser) return 'auto';
   return (localStorage.getItem(STORAGE_KEY) as ThemePreference) || 'auto';
@@ -18,21 +15,26 @@ function resolveTheme(pref: ThemePreference): 'light' | 'dark' {
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 }
 
-function applyTheme(theme: 'light' | 'dark') {
+function applyTheme(t: 'light' | 'dark') {
   if (!browser) return;
-  document.documentElement.classList.toggle('dark', theme === 'dark');
-  // Update theme-color meta for browser chrome
+  document.documentElement.classList.toggle('dark', t === 'dark');
   const meta = document.querySelector('meta[name="theme-color"]');
-  if (meta) meta.setAttribute('content', theme === 'dark' ? '#0f172a' : '#1d4ed8');
+  if (meta) meta.setAttribute('content', t === 'dark' ? '#0f172a' : '#1d4ed8');
 }
 
-// Listen for OS theme changes when in auto mode
+const initial = loadPreference();
+
+let preference = $state<ThemePreference>(initial);
+let resolved = $state<'light' | 'dark'>(resolveTheme(initial));
+
+// Apply on load and listen for OS theme changes
 if (browser) {
-  applyTheme(resolved);
+  applyTheme(resolveTheme(initial));
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
     if (preference === 'auto') {
-      resolved = resolveTheme('auto');
-      applyTheme(resolved);
+      const next = resolveTheme('auto');
+      resolved = next;
+      applyTheme(next);
     }
   });
 }
@@ -46,10 +48,11 @@ export const theme = {
   },
   set(pref: ThemePreference) {
     preference = pref;
-    resolved = resolveTheme(pref);
+    const next = resolveTheme(pref);
+    resolved = next;
     if (browser) {
       localStorage.setItem(STORAGE_KEY, pref);
-      applyTheme(resolved);
+      applyTheme(next);
     }
   }
 };
