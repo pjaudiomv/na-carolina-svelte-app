@@ -2,13 +2,12 @@
   import '../app.css';
   import { page } from '$app/state';
   import { browser } from '$app/environment';
-  import { afterNavigate } from '$app/navigation';
-  import { fade, fly } from 'svelte/transition';
+  import { beforeNavigate } from '$app/navigation';
+  import { fly } from 'svelte/transition';
   import { Home, MapPin, Timer, BookOpen, Menu, X, Calendar, Users, Settings, WifiOff } from '@lucide/svelte';
   import type { LucideIcon } from '@lucide/svelte';
   import { theme } from '$lib/stores/theme.svelte';
 
-  // Touch theme to ensure it initializes
   void theme.resolved;
 
   let { children } = $props();
@@ -19,11 +18,6 @@
     window.addEventListener('online', () => (online = true));
     window.addEventListener('offline', () => (online = false));
   }
-
-  // Close drawer on navigation
-  afterNavigate(() => {
-    drawerOpen = false;
-  });
 
   interface NavItem {
     href: string;
@@ -56,76 +50,55 @@
     return page.url.pathname.startsWith(href);
   }
 
-  function closeDrawer() {
+  // Close drawer instantly before navigation starts — prevents flicker
+  beforeNavigate(() => {
     drawerOpen = false;
-  }
+  });
 </script>
 
 <svelte:head>
   <title>CRNA — Carolina Region NA</title>
 </svelte:head>
 
-<div class="flex h-dvh flex-col bg-slate-50 dark:bg-slate-900">
-  <!-- Main content -->
-  <main class="min-h-0 flex-1 overflow-y-auto pb-16">
+<div class="app-shell">
+  <main>
     {@render children()}
   </main>
 
   <!-- Offline banner -->
   {#if !online}
-    <div
-      class="fixed right-0 left-0 z-50 flex items-center justify-center gap-2 bg-amber-500 px-4 py-1.5 text-xs font-semibold text-white"
-      style="bottom: calc(4rem + env(safe-area-inset-bottom, 0px))"
-      transition:fly={{ y: 20, duration: 200 }}
-    >
+    <div class="offline-banner" transition:fly={{ y: 20, duration: 200 }}>
       <WifiOff size={14} strokeWidth={2.5} />
       You're offline — showing cached data
     </div>
   {/if}
 
   <!-- Bottom navigation bar -->
-  <nav class="fixed right-0 bottom-0 left-0 z-40 border-t border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-800">
-    <div class="flex h-16 items-stretch">
+  <nav class="bottom-nav">
+    <div class="nav-row">
       {#each navItems as item (item.href)}
         {@const Icon = item.icon}
         {@const active = isActive(item)}
-        <a
-          href={item.href}
-          class={[
-            'flex flex-1 flex-col items-center justify-center gap-0.5 pt-1 text-xs font-medium transition-colors',
-            active ? 'text-brand dark:text-blue-400' : 'text-slate-400 dark:text-slate-500'
-          ]}
-        >
+        <a href={item.href} class={['nav-item', active ? 'text-brand dark:text-blue-400' : 'text-slate-400 dark:text-slate-500']}>
           <Icon size={22} strokeWidth={active ? 2.5 : 1.8} />
           <span>{item.label}</span>
         </a>
       {/each}
 
-      <!-- More button -->
-      <button
-        onclick={() => (drawerOpen = true)}
-        class={[
-          'flex flex-1 flex-col items-center justify-center gap-0.5 pt-1 text-xs font-medium transition-colors',
-          drawerItems.some((i) => isDrawerItemActive(i.href)) ? 'text-brand dark:text-blue-400' : 'text-slate-400 dark:text-slate-500'
-        ]}
-      >
+      <button onclick={() => (drawerOpen = true)} class={['nav-item', drawerItems.some((i) => isDrawerItemActive(i.href)) ? 'text-brand dark:text-blue-400' : 'text-slate-400 dark:text-slate-500']}>
         <Menu size={22} strokeWidth={1.8} />
         <span>More</span>
       </button>
     </div>
-    <!-- Safe area spacer — fills the home indicator area with nav background -->
-    <div style="height: env(safe-area-inset-bottom, 0px)"></div>
+    <div class="safe-bottom"></div>
   </nav>
 </div>
 
 <!-- More drawer -->
 {#if drawerOpen}
-  <!-- Backdrop -->
-  <div class="fixed inset-0 z-50 bg-black/40" transition:fade={{ duration: 200 }} onclick={closeDrawer} aria-hidden="true"></div>
+  <button class="fixed inset-0 z-50 bg-black/40" onclick={() => (drawerOpen = false)} aria-label="Close menu"></button>
 
-  <!-- Sheet -->
   <div class="fixed right-0 bottom-0 left-0 z-50 rounded-t-2xl bg-white shadow-xl dark:bg-slate-800" transition:fly={{ y: 300, duration: 280 }}>
-    <!-- Handle -->
     <div class="flex justify-center pt-3 pb-1">
       <div class="h-1 w-10 rounded-full bg-slate-300 dark:bg-slate-600"></div>
     </div>
@@ -133,7 +106,7 @@
     <div class="px-4 pb-4" style="padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0px))">
       <div class="mb-3 flex items-center justify-between">
         <span class="text-sm font-semibold tracking-wide text-slate-500 uppercase dark:text-slate-400">More</span>
-        <button onclick={closeDrawer} class="rounded-full p-1 text-slate-400 hover:bg-slate-100 dark:text-slate-500 dark:hover:bg-slate-700">
+        <button onclick={() => (drawerOpen = false)} class="rounded-full p-1 text-slate-400 hover:bg-slate-100 dark:text-slate-500 dark:hover:bg-slate-700">
           <X size={20} />
         </button>
       </div>
@@ -143,7 +116,6 @@
         {@const active = isDrawerItemActive(item.href)}
         <a
           href={item.href}
-          onclick={closeDrawer}
           class={[
             'flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-colors',
             active ? 'text-brand bg-blue-50 dark:bg-blue-950 dark:text-blue-400' : 'text-slate-700 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-700'
@@ -156,3 +128,76 @@
     </div>
   </div>
 {/if}
+
+<style>
+  .app-shell {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: #f8fafc;
+  }
+
+  :global(html.dark) .app-shell {
+    background-color: #0f172a;
+  }
+
+  main {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .bottom-nav {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 40;
+    background: white;
+    border-top: 1px solid #e2e8f0;
+  }
+
+  :global(html.dark) .bottom-nav {
+    background: #1e293b;
+    border-color: #334155;
+  }
+
+  .nav-row {
+    display: flex;
+    height: 4rem;
+    align-items: stretch;
+  }
+
+  .nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    padding-top: 4px;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  .safe-bottom {
+    height: env(safe-area-inset-bottom, 0px);
+  }
+
+  .offline-banner {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: calc(4rem + env(safe-area-inset-bottom, 0px));
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.375rem 1rem;
+    background: #f59e0b;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+</style>
