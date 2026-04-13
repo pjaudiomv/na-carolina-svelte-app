@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { browser } from '$app/environment';
+  import { theme } from '$lib/stores/theme.svelte';
 
   let container: HTMLDivElement;
 
@@ -13,8 +14,9 @@
       view: 'both',
       geolocation: true,
       geolocationRadius: 50,
-      darkMode: 'auto',
-      language: 'en'
+      darkMode: theme.preference === 'auto' ? 'auto' : theme.resolved === 'dark',
+      language: 'en',
+      columns: ['time', 'name', 'location', 'address', 'service_body']
     });
   });
 </script>
