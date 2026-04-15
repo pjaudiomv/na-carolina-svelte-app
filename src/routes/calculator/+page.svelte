@@ -2,8 +2,9 @@
   import { Timer } from '@lucide/svelte';
   import { browser } from '$app/environment';
   import { dateSpan, formatResult, getKeytags, type DateSpan } from '$lib/utils/calculator';
+  import { config, storageKeys } from '$lib/config';
 
-  const STORAGE_KEY = 'nacc_clean_date';
+  const STORAGE_KEY = storageKeys.cleanDate;
 
   let selectedYear = $state(new Date().getFullYear());
   let selectedMonth = $state(1);
@@ -52,7 +53,7 @@
 </script>
 
 <svelte:head>
-  <title>Clean Time — CRNA</title>
+  <title>Clean Time — {config.shortName}</title>
 </svelte:head>
 
 <!-- Header -->

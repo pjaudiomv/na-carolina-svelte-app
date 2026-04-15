@@ -1,5 +1,6 @@
 <script lang="ts">
   import { Users, Phone, Globe, LoaderCircle, Info } from '@lucide/svelte';
+  import { config } from '$lib/config';
 
   interface ServiceBody {
     id: string;
@@ -21,7 +22,7 @@
     loading = true;
     error = null;
     try {
-      const res = await fetch('https://aggregator.bmltenabled.org/main_server/client_interface/json/?switcher=GetServiceBodies&services=1215&recursive=1');
+      const res = await fetch(`https://aggregator.bmltenabled.org/main_server/client_interface/json/?switcher=GetServiceBodies&services=${config.serviceBodyId}&recursive=1`);
       if (!res.ok) throw new Error(`Failed to load (${res.status})`);
       const data: ServiceBody[] = await res.json();
       region = data.find((b) => b.type === 'RS') ?? null;
@@ -39,7 +40,7 @@
 </script>
 
 <svelte:head>
-  <title>Contact — CRNA</title>
+  <title>Contact — {config.shortName}</title>
 </svelte:head>
 
 <!-- Header -->
@@ -50,7 +51,7 @@
     </div>
     <div>
       <h1 class="text-lg font-bold">Service & Contact</h1>
-      <p class="text-xs text-blue-200">CRNA area service bodies</p>
+      <p class="text-xs text-blue-200">{config.shortName} area service bodies</p>
     </div>
   </div>
 </div>

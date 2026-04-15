@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import { browser } from '$app/environment';
   import { theme } from '$lib/stores/theme.svelte';
+  import { config } from '$lib/config';
 
   let widgetEl: HTMLDivElement;
 
@@ -10,7 +11,7 @@
     const { mountCrumbWidget } = await import('crumb-widget');
     mountCrumbWidget(widgetEl, {
       serverUrl: 'https://aggregator.bmltenabled.org/main_server/',
-      serviceBodyIds: [1215],
+      serviceBodyIds: [config.serviceBodyId],
       view: 'list',
       geolocation: true,
       geolocationRadius: 50,
@@ -22,7 +23,7 @@
 </script>
 
 <svelte:head>
-  <title>Find Meetings — CRNA</title>
+  <title>Find Meetings — {config.shortName}</title>
 </svelte:head>
 
 <!-- Outer wrapper keeps safe-area padding even though crumb-widget uses all:initial -->

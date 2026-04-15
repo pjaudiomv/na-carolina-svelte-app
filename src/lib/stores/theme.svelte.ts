@@ -1,8 +1,9 @@
 import { browser } from '$app/environment';
+import { storageKeys, config } from '$lib/config';
 
 export type ThemePreference = 'light' | 'dark' | 'auto';
 
-const STORAGE_KEY = 'crna_theme';
+const STORAGE_KEY = storageKeys.theme;
 
 function loadPreference(): ThemePreference {
   if (!browser) return 'auto';
@@ -19,9 +20,9 @@ function applyTheme(t: 'light' | 'dark') {
   if (!browser) return;
   document.documentElement.classList.toggle('dark', t === 'dark');
   document.documentElement.style.colorScheme = t === 'dark' ? 'dark' : 'light';
-  document.documentElement.style.backgroundColor = t === 'dark' ? '#0f172a' : '#f8fafc';
+  document.documentElement.style.backgroundColor = t === 'dark' ? config.darkBg : config.lightBg;
   const meta = document.querySelector('meta[name="theme-color"]');
-  if (meta) meta.setAttribute('content', t === 'dark' ? '#0f172a' : '#1d4ed8');
+  if (meta) meta.setAttribute('content', t === 'dark' ? config.darkBg : config.themeColor);
 }
 
 const initial = loadPreference();

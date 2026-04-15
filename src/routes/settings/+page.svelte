@@ -1,6 +1,7 @@
 <script lang="ts">
   import { Settings, Sun, Moon, Monitor } from '@lucide/svelte';
   import { theme, type ThemePreference } from '$lib/stores/theme.svelte';
+  import { config } from '$lib/config';
 
   const themeOptions: { value: ThemePreference; label: string; icon: typeof Sun }[] = [
     { value: 'light', label: 'Light', icon: Sun },
@@ -10,7 +11,7 @@
 </script>
 
 <svelte:head>
-  <title>Settings — CRNA</title>
+  <title>Settings — {config.shortName}</title>
 </svelte:head>
 
 <!-- Header -->
@@ -54,7 +55,7 @@
   <div class="mt-4 rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-100 dark:bg-slate-800 dark:ring-slate-700">
     <h2 class="mb-1 text-sm font-bold text-slate-900 dark:text-slate-100">About</h2>
     <p class="text-xs leading-relaxed text-slate-500 dark:text-slate-400">
-      CRNA is the official app for the Carolina Region of Narcotics Anonymous. Find meetings, track your clean time, read daily meditations, and stay connected with your recovery community.
+      {config.aboutText}
     </p>
     <div class="mt-3 flex items-center gap-2 text-xs text-slate-400 dark:text-slate-500">
       <span>Version 1.0.0</span>

@@ -8,6 +8,7 @@
   import type { LucideIcon } from '@lucide/svelte';
   import { theme } from '$lib/stores/theme.svelte';
   import InstallPrompt from '$lib/components/InstallPrompt.svelte';
+  import { config } from '$lib/config';
 
   void theme.resolved;
 
@@ -62,7 +63,10 @@
 </script>
 
 <svelte:head>
-  <title>CRNA — Carolina Region NA</title>
+  <title>{config.appName}</title>
+  <meta name="apple-mobile-web-app-title" content={config.shortName} />
+  <meta name="theme-color" content={config.themeColor} />
+  <meta name="description" content={config.appDescription} />
 </svelte:head>
 
 {@render children()}

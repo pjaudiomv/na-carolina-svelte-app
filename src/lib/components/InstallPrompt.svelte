@@ -2,6 +2,7 @@
   import { browser } from '$app/environment';
   import { X, Download, Share } from '@lucide/svelte';
   import { fly } from 'svelte/transition';
+  import { config, storageKeys } from '$lib/config';
 
   let deferredPrompt = $state<BeforeInstallPromptEvent | null>(null);
   let showIosPrompt = $state(false);
@@ -12,7 +13,7 @@
     userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
   }
 
-  const DISMISS_KEY = 'crna_install_dismissed';
+  const DISMISS_KEY = storageKeys.installDismissed;
 
   // Don't show if already installed as standalone or previously dismissed
   const isStandalone = browser && (window.matchMedia('(display-mode: standalone)').matches || ('standalone' in navigator && (navigator as Record<string, unknown>).standalone === true));
@@ -69,7 +70,7 @@
     </div>
 
     <div class="min-w-0 flex-1">
-      <p class="text-sm font-semibold text-slate-900 dark:text-slate-100">Install CRNA</p>
+      <p class="text-sm font-semibold text-slate-900 dark:text-slate-100">Install {config.shortName}</p>
 
       {#if deferredPrompt}
         <p class="mt-0.5 text-xs text-slate-500 dark:text-slate-400">Add to your home screen for quick access</p>

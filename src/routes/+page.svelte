@@ -1,6 +1,7 @@
 <script lang="ts">
   import { MapPin, Timer, BookOpen, Star, Calendar, Users, ChevronRight } from '@lucide/svelte';
   import type { LucideIcon } from '@lucide/svelte';
+  import { config } from '$lib/config';
 
   interface FeatureCard {
     href: string;
@@ -18,7 +19,7 @@
       iconBg: 'bg-blue-100 dark:bg-blue-900/50',
       iconColor: 'text-blue-600 dark:text-blue-400',
       title: 'Find Meetings',
-      description: 'Search by location or browse all CRNA meetings'
+      description: `Search by location or browse all ${config.shortName} meetings`
     },
     {
       href: '/calculator',
@@ -48,13 +49,13 @@
 </script>
 
 <svelte:head>
-  <title>Home — CRNA</title>
+  <title>Home — {config.shortName}</title>
 </svelte:head>
 
 <!-- Hero -->
 <div class="from-brand-dark via-brand to-brand-light bg-gradient-to-br px-6 pb-10 text-white" style="padding-top: calc(var(--safe-top) + 3rem)">
   <div class="flex flex-col items-center text-center">
-    <img src="/icon-512x512.png" alt="Carolina Region NA" class="mb-4 h-24 w-24 rounded-2xl" />
+    <img src="/icon-512x512.png" alt={config.regionName} class="mb-4 h-24 w-24 rounded-2xl" />
   </div>
 </div>
 
@@ -80,7 +81,7 @@
     </div>
     <div class="min-w-0 flex-1">
       <span class="text-sm font-semibold text-slate-900 dark:text-slate-100">Events</span>
-      <p class="text-xs text-slate-500 dark:text-slate-400">CRNA events and announcements</p>
+      <p class="text-xs text-slate-500 dark:text-slate-400">{config.shortName} events and announcements</p>
     </div>
     <ChevronRight size={16} class="flex-shrink-0 text-slate-300 dark:text-slate-600" />
   </a>

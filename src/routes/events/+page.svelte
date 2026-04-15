@@ -1,5 +1,6 @@
 <script lang="ts">
   import { Calendar, MapPin, DollarSign, ExternalLink, LoaderCircle, Tag, User } from '@lucide/svelte';
+  import { config } from '$lib/config';
 
   interface CrnaEvent {
     summary: string;
@@ -21,7 +22,7 @@
     loading = true;
     error = null;
     try {
-      const res = await fetch('https://crna.org/crna_docs/crna-events-tribe.php');
+      const res = await fetch(config.eventsUrl);
       if (!res.ok) throw new Error(`Failed to load events (${res.status})`);
       events = await res.json();
     } catch (e) {
@@ -47,7 +48,7 @@
 </script>
 
 <svelte:head>
-  <title>Events — CRNA</title>
+  <title>Events — {config.shortName}</title>
 </svelte:head>
 
 <!-- Header -->
@@ -58,7 +59,7 @@
     </div>
     <div>
       <h1 class="text-lg font-bold">Events</h1>
-      <p class="text-xs text-blue-200">CRNA events and announcements</p>
+      <p class="text-xs text-blue-200">{config.shortName} events and announcements</p>
     </div>
   </div>
 </div>

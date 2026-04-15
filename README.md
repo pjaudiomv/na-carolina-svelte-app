@@ -1,6 +1,8 @@
-# CRNA — Carolina Region Narcotics Anonymous
+# NA Region App — multi-region PWA
 
-A high-quality, web-first PWA for the Carolina Region of Narcotics Anonymous. Built with SvelteKit + Svelte 5, installable from the browser today and designed to support App Store / Play Store builds via Capacitor in the future.
+A high-quality, web-first PWA for a Narcotics Anonymous region. Built with SvelteKit + Svelte 5, installable from the browser today and designed to support App Store / Play Store builds via Capacitor.
+
+One codebase, multiple regions: the app is parameterized by a build-time region (BMLT service body, events feed URL, branding, icons). See [Multi-region builds](#multi-region-builds) below.
 
 This is a greenfield rebuild of [NA-Carolina-App-Ionic-6](https://github.com/pjaudiomv/NA-Carolina-App-Ionic-6).
 
@@ -18,15 +20,50 @@ This is a greenfield rebuild of [NA-Carolina-App-Ionic-6](https://github.com/pja
 ```bash
 npm install
 
-# Local web dev (HMR, no device)
+# Local web dev (HMR, no device) — defaults to carolina region
 npm run dev:start        # http://localhost:5001
+
+# Dev server for a specific region
+npm run dev:carolina
+npm run dev:nc
 
 # Type checking
 npm run validate
 
-# Production build
-npm run build:app        # outputs to build/
+# Production build (carolina is the default for `npm run build`)
+npm run build            # alias for build:carolina
+npm run build:carolina
+npm run build:nc
 ```
+
+## Multi-region builds
+
+The app supports multiple NA regions from a single codebase. Each region has its own:
+
+- **BMLT service body id** (aggregator lookup)
+- **Events feed URL**
+- **App name / short name / description / about text**
+- **Icons** (favicon + PWA icons)
+- **Theme color**
+
+### Adding a new region
+
+1. Create an env file `.env.<region>` at the repo root. Copy `.env.carolina` and adjust every `VITE_*` value. Required keys:
+   - `VITE_SERVICE_BODY_ID` — BMLT aggregator service body id
+   - `VITE_EVENTS_URL` — JSON endpoint for the events feed
+   - `VITE_APP_NAME`, `VITE_APP_SHORT_NAME`, `VITE_REGION_NAME`
+   - `VITE_APP_DESCRIPTION`, `VITE_ABOUT_TEXT`
+   - `VITE_THEME_COLOR` (optional, defaults to `#1d4ed8`)
+2. Create `regions/<region>/icons/` and drop in: `favicon.png`, `apple-touch-icon.png`, `icon-192x192.png`, `icon-512x512.png`, `icon-1024x1024.png`.
+3. Add npm scripts in `package.json` (mirroring `build:carolina` / `dev:carolina`).
+4. Build: `npm run build:<region>`. The `scripts/configure-region.mjs` prebuild step copies the region icons into `static/` and Vite picks up the matching `.env.<region>` via `--mode <region>`.
+
+### How it works
+
+- Runtime values live in [`src/lib/config.ts`](./src/lib/config.ts), which reads `import.meta.env.VITE_*` at build time.
+- All UI copy, titles, fetch URLs, and storage keys import from that module — no hardcoded region strings in components.
+- `vite.config.ts` uses `loadEnv(mode, ...)` to populate the PWA manifest (name, short_name, description, theme_color).
+- Static icons are swapped by `scripts/configure-region.mjs` before every `dev:*` / `build:*` script.
 
 ## Device / Native (when ready)
 
@@ -63,7 +100,7 @@ cordova-res android --skip-config --copy
 | `/calculator` | Clean time calculator + keytag milestones |
 | `/jft` | Just For Today daily meditation |
 | `/spad` | Spiritual Principle A Day |
-| `/events` | CRNA events (WordPress feed) |
+| `/events` | Region events (JSON feed, configurable via `VITE_EVENTS_URL`) |
 | `/contact` | Service bodies and helpful links |
 | `/settings` | Theme, clean date, about |
 
@@ -71,11 +108,11 @@ cordova-res android --skip-config --copy
 
 | Data | Source |
 |------|--------|
-| Meetings | `https://bmlt.sezf.org/main_server/` (BMLT) |
-| Just For Today | `src/lib/data/jft.json` (static, 366 entries) |
-| Spiritual Principle A Day | `src/lib/data/spad.json` (static, 366 entries) |
-| Events | `https://crna.org/crna_docs/crna-events-app.php` |
-| Service contacts | `src/lib/data/contacts.json` (static) |
+| Meetings | `https://aggregator.bmltenabled.org/main_server/` (BMLT aggregator, filtered by `VITE_SERVICE_BODY_ID`) |
+| Just For Today | `https://justforto.day/?format=json` |
+| Spiritual Principle A Day | `https://spiritualprinciplea.day/?format=json` |
+| Events | `VITE_EVENTS_URL` (per region) |
+| Service contacts | BMLT aggregator `GetServiceBodies` (filtered by `VITE_SERVICE_BODY_ID`) |
 
 ## Project Status
 

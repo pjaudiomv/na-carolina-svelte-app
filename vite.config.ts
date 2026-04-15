@@ -1,13 +1,16 @@
 /// <reference types="vitest/config" />
 
-
 import { sveltekit } from '@sveltejs/kit/vite';
 import { svelteTesting } from '@testing-library/svelte/vite';
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import tailwindcss from '@tailwindcss/vite';
 import { VitePWA } from 'vite-plugin-pwa';
 
-export default defineConfig({
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), 'VITE_');
+  const themeColor = env.VITE_THEME_COLOR || '#1d4ed8';
+
+  return {
   plugins: [
     tailwindcss(),
     sveltekit(),
@@ -18,11 +21,11 @@ export default defineConfig({
       manifestFilename: 'manifest.json',
       includeAssets: ['favicon.png', 'apple-touch-icon.png', 'icon-192x192.png', 'icon-512x512.png'],
       manifest: {
-        name: 'CRNA — Carolina Region NA',
-        short_name: 'CRNA',
-        description: 'Carolina Region Narcotics Anonymous — find meetings, track clean time, and read daily meditations.',
-        theme_color: '#1d4ed8',
-        background_color: '#1d4ed8',
+        name: env.VITE_APP_NAME || 'NA Region App',
+        short_name: env.VITE_APP_SHORT_NAME || 'NA',
+        description: env.VITE_APP_DESCRIPTION || '',
+        theme_color: themeColor,
+        background_color: themeColor,
         display: 'standalone',
         orientation: 'portrait',
         scope: '/',
@@ -86,12 +89,12 @@ export default defineConfig({
               networkTimeoutSeconds: 5
             }
           },
-          // CRNA events
+          // Region events feed
           {
             urlPattern: /^https:\/\/crna\.org\/.*/i,
             handler: 'NetworkFirst',
             options: {
-              cacheName: 'crna-events',
+              cacheName: 'region-events',
               expiration: { maxEntries: 20, maxAgeSeconds: 3600 },
               cacheableResponse: { statuses: [0, 200] },
               networkTimeoutSeconds: 5
@@ -128,4 +131,5 @@ export default defineConfig({
       }
     }
   }
+  };
 });
